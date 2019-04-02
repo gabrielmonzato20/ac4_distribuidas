@@ -6,17 +6,16 @@ import requests
 
 
 import unittest
-
 class TestStringMethods(unittest.TestCase):
 
 
-    def test_000_operacoes_ola1(self):
+    def ntest_000_operacoes_ola1(self):
         r = requests.get('http://localhost:5000/ola/marcio')
         self.assertEqual(r.text,'ola marcio')
         r = requests.get('http://localhost:5000/ola/mario')
         self.assertEqual(r.text,'ola mario')
     
-    def test_001_operacoes_ola2(self):
+    def ntest_001_operacoes_ola2(self):
         r = requests.get('http://localhost:5000/ola_upgrade?pessoa1=marcio&pessoa2=alvaro')
         self.assertEqual(r.text,'ola marcio e alvaro')
         r = requests.get('http://localhost:5000/ola_upgrade?pessoa2=alvaro&pessoa1=marcio')
@@ -24,13 +23,13 @@ class TestStringMethods(unittest.TestCase):
         r = requests.get('http://localhost:5000/ola_upgrade?pessoa2=robin&pessoa1=batman')
         self.assertEqual(r.text,'ola batman e robin')
 
-    def test_002_operacoes_ola3(self):
+    def ntest_002_operacoes_ola3(self):
         r = requests.post('http://localhost:5000/ola_upgrade', json={'pessoa1':'batman','pessoa2':'robin'})
         self.assertEqual(r.text,'ola batman e robin')
         r = requests.post('http://localhost:5000/ola_upgrade', json={'pessoa1':'tonico','pessoa2':'tinoco'})
         self.assertEqual(r.text,'ola tonico e tinoco')
     
-    def test_003_operacoes_ola_com_dic(self):
+    def ntest_003_operacoes_ola_com_dic(self):
         r = requests.get('http://localhost:5000/ola_com_dic?pessoa1=barney&pessoa2=fred')
         self.assertEqual(r.json()['pessoa1'],'barney')
         self.assertEqual(r.json()['pessoa2'],'fred')
@@ -38,7 +37,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(r.json()['pessoa1'],'harry')
         self.assertEqual(r.json()['pessoa2'],'ron')
     
-    def test_004_operacoes_ola_com_dic(self):
+    def ntest_004_operacoes_ola_com_dic(self):
         r = requests.get('http://localhost:5000/ola_com_dic?pessoa1=barney')
         self.assertEqual(r.status_code,400)
         self.assertEqual(r.json()['erro'],'falta gente')
@@ -47,7 +46,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(r.json()['erro'],'falta gente')
 
     
-    def test_005_operacoes_ola_com_dic(self):
+    def ntest_005_operacoes_ola_com_dic(self):
         r = requests.post('http://localhost:5000/ola_com_dic',
             json={'pessoa1':'barney','pessoa2':'fred'})
         self.assertEqual(r.json()['pessoa1'],'barney')
@@ -57,7 +56,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(r.json()['pessoa1'],'harry')
         self.assertEqual(r.json()['pessoa2'],'ron')
     
-    def test_006_operacoes_ola_com_dic(self):
+    def ntest_006_operacoes_ola_com_dic(self):
         r = requests.post('http://localhost:5000/ola_com_dic',
             json={'pessoa2':'fred'})
         self.assertEqual(r.status_code,400)
