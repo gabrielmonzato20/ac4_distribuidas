@@ -1,0 +1,835 @@
+{
+	"info": {
+		"_postman_id": "e9966e36-31de-4a5e-aebc-6494205cdbc8",
+		"name": "operacoes matematicas e socialfilm",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "dois a quinta",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/matematica/potencia_de_dois/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"matematica",
+						"potencia_de_dois",
+						"5"
+					]
+				},
+				"description": "Request valido"
+			},
+			"response": []
+		},
+		{
+			"name": "dois a quinta melhor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/matematica/potencia_de_dois_melhor/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"matematica",
+						"potencia_de_dois_melhor",
+						"5"
+					]
+				},
+				"description": "Request valido"
+			},
+			"response": []
+		},
+		{
+			"name": "dois a quinta melhor - operacao invalida",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/matematica/potencia_de_dois_melhor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"matematica",
+						"potencia_de_dois_melhor"
+					]
+				},
+				"description": "Request valido"
+			},
+			"response": []
+		},
+		{
+			"name": "soma get",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/matematica/soma?a=12&b=33",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"matematica",
+						"soma"
+					],
+					"query": [
+						{
+							"key": "a",
+							"value": "12"
+						},
+						{
+							"key": "b",
+							"value": "33"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "soma get invertido",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/matematica/soma?b=13&a=12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"matematica",
+						"soma"
+					],
+					"query": [
+						{
+							"key": "b",
+							"value": "13"
+						},
+						{
+							"key": "a",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "soma get variavel faltando",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/matematica/soma?b=13",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"matematica",
+						"soma"
+					],
+					"query": [
+						{
+							"key": "b",
+							"value": "13"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "soma get variavel nao inteira",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/matematica/soma?b=13&a=paca",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"matematica",
+						"soma"
+					],
+					"query": [
+						{
+							"key": "b",
+							"value": "13"
+						},
+						{
+							"key": "a",
+							"value": "paca"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "soma post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"a\": 2,\n\t\"b\": 15\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/matematica/soma",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"matematica",
+						"soma"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "soma post faltando variavel",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"a\": 2,\n\t\"c\": 15\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/matematica/soma",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"matematica",
+						"soma"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "soma post invalida not json",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"a\": 2,\n\t\"b\": 15\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/matematica/soma",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"matematica",
+						"soma"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ola",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/ola/marcio",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"ola",
+						"marcio"
+					]
+				},
+				"description": "Request valido"
+			},
+			"response": []
+		},
+		{
+			"name": "ola com parametros",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/ola_upgrade?pessoa1=batman&pessoa2=robin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"ola_upgrade"
+					],
+					"query": [
+						{
+							"key": "pessoa1",
+							"value": "batman"
+						},
+						{
+							"key": "pessoa2",
+							"value": "robin"
+						}
+					]
+				},
+				"description": "Request valido"
+			},
+			"response": []
+		},
+		{
+			"name": "ola com post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"pessoa1\":\"milionario\",\n\t\"pessoa2\": \"jose rico\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/ola_upgrade",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"ola_upgrade"
+					]
+				},
+				"description": "Request valido"
+			},
+			"response": []
+		},
+		{
+			"name": "ola com parametros retorna dicionario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/ola_com_dic?pessoa1=batman&pessoa2=robin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"ola_com_dic"
+					],
+					"query": [
+						{
+							"key": "pessoa1",
+							"value": "batman"
+						},
+						{
+							"key": "pessoa2",
+							"value": "robin"
+						}
+					]
+				},
+				"description": "Request valido"
+			},
+			"response": []
+		},
+		{
+			"name": "ola com parametros deu pau",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/ola_com_dic?pessoa1=batman",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"ola_com_dic"
+					],
+					"query": [
+						{
+							"key": "pessoa1",
+							"value": "batman"
+						}
+					]
+				},
+				"description": "Request valido"
+			},
+			"response": []
+		},
+		{
+			"name": "ola com post retorna dicionario",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"pessoa1\":\"milionario\",\n\t\"pessoa2\": \"jose rico\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/ola_com_dic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"ola_com_dic"
+					]
+				},
+				"description": "Request valido"
+			},
+			"response": []
+		},
+		{
+			"name": "ola com post deu pau",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"pessoa2\":\"milionario\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/ola_com_dic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"ola_com_dic"
+					]
+				},
+				"description": "Request valido"
+			},
+			"response": []
+		},
+		{
+			"name": "url de debug",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5001/socialfilm/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"socialfilm",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ver review de filme",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5001/socialfilm/reviews/tt0076759/marcos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"socialfilm",
+						"reviews",
+						"tt0076759",
+						"marcos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "review nao existente",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5001/socialfilm/reviews/outro/gato",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"socialfilm",
+						"reviews",
+						"outro",
+						"gato"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "alterar review de filme",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"comment\":\"mudei de ideia. Nao gostei nao\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5001/socialfilm/reviews/tt0076759/marcos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"socialfilm",
+						"reviews",
+						"tt0076759",
+						"marcos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "nova review de filme",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"comment\":\"fantasmas!\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5001/socialfilm/reviews/tt0087332/marcos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"socialfilm",
+						"reviews",
+						"tt0087332",
+						"marcos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "todas as reviews do fulano",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"comment\":\"fantasmas!\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5001/socialfilm/reviews/all_films/marcos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"socialfilm",
+						"reviews",
+						"all_films",
+						"marcos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consulta estrelas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"comment\":\"fantasmas!\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5001/socialfilm/stars/tt0076759/marcos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"socialfilm",
+						"stars",
+						"tt0076759",
+						"marcos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consulta estrelas filme nao existe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"comment\":\"fantasmas!\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5001/socialfilm/stars/tt007nao6759/marcos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"socialfilm",
+						"stars",
+						"tt007nao6759",
+						"marcos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consulta estrelas rev nao existe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"comment\":\"fantasmas!\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5001/socialfilm/stars/tt1211837/marcos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"socialfilm",
+						"stars",
+						"tt1211837",
+						"marcos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dar estrelas",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"stars\":3\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5001/socialfilm/stars/tt0119177/marcos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"socialfilm",
+						"stars",
+						"tt0119177",
+						"marcos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consulta media estrelas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"comment\":\"fantasmas!\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5001/socialfilm/stars/tt0076759/average",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"socialfilm",
+						"stars",
+						"tt0076759",
+						"average"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
