@@ -35,23 +35,24 @@ devolve o dicionario da avaliacao
 '''
 def consulta(film_id,user_id):
     for dicio in reviews_aquecimento:
-        if dicio ['filme_id'] == filme_id and dicio ['user_id'] == user_id:
-            return dicio['comment']
+        
+        if dicio['film_id'] == film_id and dicio['user_id'] == user_id:
+            return dicio
+    
+    return 'nao encontrado'
 
-'''
-Agora, façamos uma funcao que adiciona uma nova avaliacao
-'''
+
 def adiciona(film_id,user_id,comment):
     for dicio in reviews_aquecimento:
-        if dicio ['filme_id'] == filme_id and dicio ['user_id'] == user_id:
-            if(dicio['comment']):
+       
+        if dicio ['film_id'] == film_id and dicio['user_id'] == user_id:
                 dicio['comment'] = comment
-            else:
-                dicio = {'filme_id':filme_id,'user_id':user_id,'comment':comment}
-                reviews_aquecimento.append(dicio.copy())
-                dicio.clear()
-def exemplo():
-    print(oi)
+                return
+    dicio_filme2 = {'film_id':film_id,'user_id':user_id,'comment':comment}
+    reviews_aquecimento.append(dicio_filme2.copy())
+    dicio_filme2.clear()
+       
+                
 
 '''
 Agora, façamos um upgrade na adiciona:

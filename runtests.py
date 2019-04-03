@@ -4,8 +4,8 @@ import requests
 
 
 
-
 import unittest
+
 class TestStringMethods(unittest.TestCase):
 
 
@@ -66,17 +66,23 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(r.status_code,400)
         self.assertEqual(r.json()['erro'],'falta gente')
 
+    def test_100_arquivo_aquecimento(self):
+        import aquecimento_dicionarios #esse teste verifica se o arquivo aquecimento_dicionarios esta na mesma pasta que o runtests.py
+
     def test_101_aquecimento_consulta(self):
+        self.carregar_arquivo_aquecimento()
         self.assertEqual(consulta('tt0076759','lucio')['comment'],'achei legal')
         self.assertEqual(consulta('tt0076759','marcos')['comment'],'gostei')
         self.assertEqual(consulta('tt0076759','maria'),'nao encontrado')
 
     def test_102_aquecimento_adiciona(self):
+        self.carregar_arquivo_aquecimento()
         self.assertEqual(consulta('1212','maria'),'nao encontrado')
         adiciona('1212','maria','filme otimo')
         self.assertEqual(consulta('1212','maria')['comment'],'filme otimo')
     
     def test_103_aquecimento_adiciona(self):
+        self.carregar_arquivo_aquecimento()
         adiciona('1212','maria','filme otimo')
         self.assertEqual(consulta('1212','maria')['comment'],'filme otimo')
         antes = len(reviews_aquecimento)
@@ -131,13 +137,8 @@ class TestStringMethods(unittest.TestCase):
         depois = self.total_reviews()
         self.assertEqual(antes,depois)
 
-    def test_207_filme_invalido(self):
-        r = requests.put('http://localhost:5001/socialfilm/reviews/jamesbond/marcos',
-                json={'comment':'mudei de ideia. Nao gosto de fantasmas'})
-        self.assertEqual(r.json()['error'],'filme nao encontrado')
-        self.assertEqual(r.status_code,404)
 
-    def test_208_all_films(self):
+    def test_207_all_films(self):
         r = requests.get('http://localhost:5001/socialfilm/reviews/all_films/marcos')
         lista_respostas = r.json()
         self.assertTrue(len(lista_respostas) >= 2)
@@ -148,7 +149,57 @@ class TestStringMethods(unittest.TestCase):
         if not achei_dr_strange:
             self.fail('a lista de reviews do marcos nao contem o filme dr strange')
     
-    def test_209_all_films_nome(self):
+
+
+    def test_208_estrelas(self):
+        r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759/marcos')
+        self.assertEqual(int(r.json()['stars']),4)
+        r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759/lucio')
+        self.assertEqual(int(r.json()['stars']),5)
+        r = requests.get('http://localhost:5001/socialfilm/stars/tt1211837/lucio')
+        self.assertEqual(int(r.json()['stars']),2)
+        self.assertEqual(r.status_code,200) #codigo normal, que ocorre
+        #se voce simplesmente nao fizer nada
+    
+
+    def test_209_estrelas_review_nao_encontrada(self):
+        r = requests.get('http://localhost:5001/socialfilm/stars/tt1211837/marcos')
+        self.assertTrue('error' in r.json())
+        self.assertEqual(r.json()['error'],'review nao encontrada')
+        self.assertEqual(r.status_code,404)
+
+    def test_210_novas_estrelas(self):
+        r = requests.put('http://localhost:5001/socialfilm/stars/tt0119177/marcos',
+                json={'stars':3})
+        r = requests.get('http://localhost:5001/socialfilm/stars/tt0119177/marcos')
+        self.assertEqual(r.json()['stars'],3)
+        contagem = self.total_stars()
+        r = requests.put('http://localhost:5001/socialfilm/stars/tt0119177/marcos',
+                json={'stars':4})
+        r = requests.get('http://localhost:5001/socialfilm/stars/tt0119177/marcos')
+        self.assertEqual(r.json()['stars'],4)
+        cont_depois = self.total_stars()
+        self.assertEqual(contagem,cont_depois)
+
+    def test_211_average_stars(self):
+        r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759/average')
+        self.assertTrue(4.4 < r.json()['average_stars'] < 4.6)
+        r = requests.put('http://localhost:5001/socialfilm/stars/tt0076759/marcos',
+                json={'stars':1})
+        r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759/average')
+        self.assertTrue(2.9 < r.json()['average_stars'] < 3.1)
+        r = requests.put('http://localhost:5001/socialfilm/stars/tt0076759/marcos',
+                json={'stars':4})
+        r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759/average')
+        self.assertTrue(4.4 < r.json()['average_stars'] < 4.6)
+
+    def test_301_filme_invalido(self):
+        r = requests.put('http://localhost:5001/socialfilm/reviews/jamesbond/marcos',
+                json={'comment':'mudei de ideia. Nao gosto de fantasmas'})
+        self.assertEqual(r.json()['error'],'filme nao encontrado')
+        self.assertEqual(r.status_code,404)
+
+    def test_302_all_films_nome(self):
         r = requests.get('http://localhost:5001/socialfilm/reviews/all_films/marcos')
         lista_respostas = r.json()
         achei_dr_strange = False
@@ -165,24 +216,14 @@ class TestStringMethods(unittest.TestCase):
         if not achei_star_wars:
             self.fail('a lista de reviews do marcos nao contem o nome do star wars')
 
-    def test_210_all_films_nao_deve_alterar_a_review(self):
+    def test_303_all_films_nao_deve_alterar_a_review(self):
         r = requests.get('http://localhost:5001/socialfilm/all')
         lista_reviews = r.json()['reviews']
         for review in lista_reviews:
             if 'film_name' in review:
                 self.fail('voce alterou as reviews do servidor, colocando nome')
 
-    def test_211_estrelas(self):
-        r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759/marcos')
-        self.assertEqual(int(r.json()['stars']),4)
-        r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759/lucio')
-        self.assertEqual(int(r.json()['stars']),5)
-        r = requests.get('http://localhost:5001/socialfilm/stars/tt1211837/lucio')
-        self.assertEqual(int(r.json()['stars']),2)
-        self.assertEqual(r.status_code,200) #codigo normal, que ocorre
-        #se voce simplesmente nao fizer nada
-    
-    def test_212_estrelas_filme_inexistente(self):
+    def test_304_estrelas_filme_inexistente(self):
         r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759nao/marcos')
         self.assertTrue('error' in r.json())
         self.assertEqual(r.json()['error'],'filme nao encontrado')
@@ -190,38 +231,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertTrue('error' in r.json())
         self.assertEqual(r.json()['error'],'filme nao encontrado')
         self.assertEqual(r.status_code,404)
-
-    def test_213_estrelas_review_nao_encontrada(self):
-        r = requests.get('http://localhost:5001/socialfilm/stars/tt1211837/marcos')
-        self.assertTrue('error' in r.json())
-        self.assertEqual(r.json()['error'],'review nao encontrada')
-        self.assertEqual(r.status_code,404)
-
-    def test_214_novas_estrelas(self):
-        r = requests.put('http://localhost:5001/socialfilm/stars/tt0119177/marcos',
-                json={'stars':3})
-        r = requests.get('http://localhost:5001/socialfilm/stars/tt0119177/marcos')
-        self.assertEqual(r.json()['stars'],3)
-        contagem = self.total_stars()
-        r = requests.put('http://localhost:5001/socialfilm/stars/tt0119177/marcos',
-                json={'stars':4})
-        r = requests.get('http://localhost:5001/socialfilm/stars/tt0119177/marcos')
-        self.assertEqual(r.json()['stars'],4)
-        cont_depois = self.total_stars()
-        self.assertEqual(contagem,cont_depois)
-
-    def test_215_average_stars(self):
-        r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759/average')
-        self.assertTrue(4.4 < r.json()['average_stars'] < 4.6)
-        r = requests.put('http://localhost:5001/socialfilm/stars/tt0076759/marcos',
-                json={'stars':1})
-        r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759/average')
-        self.assertTrue(2.9 < r.json()['average_stars'] < 3.1)
-        r = requests.put('http://localhost:5001/socialfilm/stars/tt0076759/marcos',
-                json={'stars':4})
-        r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759/average')
-        self.assertTrue(4.4 < r.json()['average_stars'] < 4.6)
-
 
 
 
@@ -236,6 +245,19 @@ class TestStringMethods(unittest.TestCase):
         r = requests.get('http://localhost:5001/socialfilm/all')
         return len(r.json()['notas'])
 
+    def carregar_arquivo_aquecimento(self):
+        '''
+        carrega o arquivo aquecimento_dicionarios, se
+        ele ainda nao foi carregado
+        '''
+        global consulta,adiciona,reviews_aquecimento
+        try:
+            consulta #se o modulo ainda nao foi carregado
+            #essa linha da pau e o except é executado
+        except:
+            from aquecimento_dicionarios import consulta, adiciona#entao carregue
+            from aquecimento_dicionarios import reviews_aquecimento
+
 
     
 
@@ -244,6 +266,12 @@ class TestStringMethods(unittest.TestCase):
 def runTests():
         suite = unittest.defaultTestLoader.loadTestsFromTestCase(TestStringMethods)
         unittest.TextTestRunner(verbosity=2,failfast=True).run(suite)
+
+try:
+    from aquecimento_dicionarios_gabarito_NAO import consulta,adiciona
+    from aquecimento_dicionarios_gabarito_NAO import reviews_aquecimento
+except:
+    pass
 
 if __name__ == '__main__':
     runTests()
