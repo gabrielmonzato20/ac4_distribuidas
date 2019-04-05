@@ -1,7 +1,8 @@
 #!bin/python
 from flask import Flask,jsonify,abort
 from flask import make_response, request
-import acesso_omdb
+from acesso_omdb import *
+
 
 
 app = Flask(__name__)
@@ -93,8 +94,12 @@ def get_review(film_id,user_id):
     for review in reviews:
         if review['film_id'] ==film_id and review['user_id'] == user_id:
             return jsonify({'comment':review['comment'],'user_id':review['user_id']})
-    return jsonify({'erro':"comentario nao encontrado"}),404
-
+    existe = existe_id(film_id)
+    if existe:
+        return jsonify({'erro':"comentario nao encontrado"}),404
+    else:
+         return jsonify({"error":"filme nao encontrado"} ),404
+        
 '''
 Adicionar um comentario:
     ao acessar a URL /socialfilm/reviews/id_filme/id_usuario com o metodo PUT, 
@@ -124,15 +129,23 @@ Adicionar um comentario:
 @app.route('/socialfilm/reviews/<film_id>/<user_id>', methods=['PUT'])
 def put_review(film_id,user_id):
     dicio_request=request.json
-    for dicio in reviews_aquecimento:
+    for dicio in reviews:
         if dicio ['film_id'] == film_id and dicio['user_id'] == user_id:
             dicio['comment'] = dicio_request['comment']
-            return     
-    # dicio_filme2 = {'film_id':film_id,'user_id':user_id,'comment':dicio_request['comment']}
-    # g= dicio_filme2.copy()
-    reviews_aquecimento.append(dicio_request)
-    # dicio_filme2.clear()
-    return jsonify(dicio_request)
+            print(1)
+            return jsonify(dicio)
+    existe = existe_id(film_id)
+    if existe:   
+        print(2)
+        dicio_filme2 = {'film_id':film_id,'user_id':user_id,'comment':dicio_request['comment']}
+        g= dicio_filme2.copy()
+        
+        reviews.append(g)
+        dicio_filme2.clear()
+        return jsonify(g)
+    else:
+        print(3)
+        return jsonify({"error":"filme nao encontrado"} ),404
     
 
 '''
@@ -144,7 +157,15 @@ Cada dicionário tem que ter as chaves "film_id" "user_id" e "comment"
 '''
 @app.route('/socialfilm/reviews/all_films/<user_id>', methods=['GET'])
 def all_reviews(user_id):
-  return 'ola3'
+    lista_views = []
+    for view in reviews:
+        if view['user_id'] == user_id:
+         film = view.copy()
+         film['film_name'] = pega_nome(film['film_id'])
+         lista_views.append(film)
+         print(view)
+         print('oi')
+    return jsonify(lista_views) 
 
 
 '''
@@ -159,7 +180,22 @@ Agora, façamos a parte das estrelas:
 '''
 @app.route('/socialfilm/stars/<film_id>/<user_id>', methods=['GET'])
 def retorna_estrelas(film_id,user_id):
-    return 'estrelas'
+    lista_filme = []
+    if not existe_id(film_id):
+         return jsonify({"error":"filme nao encontrado"}),404
+    for filme in notas:
+        lista_filme.append(filme['film_id'])
+    if film_id in lista_filme:
+            for view in notas:
+            # print(view['film_id'] == film_id and view['user_id']==user_id)
+                if view['film_id'] == film_id and view['user_id']==user_id:
+                    return jsonify(view)
+                
+            return jsonify( {"error":"review nao encontrada"}),404
+    else:        
+        return jsonify({"error":"filme nao encontrado"}),404
+        
+
 
 
 '''
@@ -176,7 +212,23 @@ filme que nao avaliou ainda
 
 @app.route('/socialfilm/stars/<film_id>/<user_id>', methods=['PUT'])
 def add_estrelas(film_id,user_id):
-    return 'mais estrelas'
+    dicio_request=request.json
+    print(int(dicio_request['stars']))
+    if  int(dicio_request['stars'])<0 or int(dicio_request['stars']) >5:
+        return 404 
+    for dicio in notas:
+
+        if dicio ['film_id'] == film_id and dicio['user_id'] == user_id:
+            dicio['stars'] = dicio_request['stars']
+            print(dicio)
+            return jsonify(dicio)    
+    dicio_filme2 = {'film_id':film_id,'user_id':user_id,'stars':dicio_request['stars']}
+    g= dicio_filme2.copy()
+    
+    notas.append(g)
+    dicio_filme2.clear()
+    print(g)
+    return jsonify(g)
 
 '''
 Para vermos a média de estrelas de um filme, podemos acessar a URL
@@ -188,8 +240,12 @@ ou 'nao avaliado' se nenhum usuário avaliou o filme ainda
 '''
 @app.route('/socialfilm/stars/<film_id>/average', methods=['GET'])
 def retorna_media(film_id):
-    return '12'
-
+    star = []
+    for filme in notas:
+        if filme['film_id'] == film_id:
+            star.append(filme['stars'])
+    nota = sum(star)/len(star)
+    return jsonify({"average_stars": nota})
 '''
 Agora, chegou a hora de integrar seu servidor ao OMDB
 

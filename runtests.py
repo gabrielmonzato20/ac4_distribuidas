@@ -66,22 +66,22 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(r.status_code,400)
         self.assertEqual(r.json()['erro'],'falta gente')
 
-    def test_100_arquivo_aquecimento(self):
+    def ntest_100_arquivo_aquecimento(self):
         import aquecimento_dicionarios #esse teste verifica se o arquivo aquecimento_dicionarios esta na mesma pasta que o runtests.py
 
-    def test_101_aquecimento_consulta(self):
+    def ntest_101_aquecimento_consulta(self):
         self.carregar_arquivo_aquecimento()
         self.assertEqual(consulta('tt0076759','lucio')['comment'],'achei legal')
         self.assertEqual(consulta('tt0076759','marcos')['comment'],'gostei')
         self.assertEqual(consulta('tt0076759','maria'),'nao encontrado')
 
-    def test_102_aquecimento_adiciona(self):
+    def ntest_102_aquecimento_adiciona(self):
         self.carregar_arquivo_aquecimento()
         self.assertEqual(consulta('1212','maria'),'nao encontrado')
         adiciona('1212','maria','filme otimo')
         self.assertEqual(consulta('1212','maria')['comment'],'filme otimo')
     
-    def test_103_aquecimento_adiciona(self):
+    def ntest_103_aquecimento_adiciona(self):
         self.carregar_arquivo_aquecimento()
         adiciona('1212','maria','filme otimo')
         self.assertEqual(consulta('1212','maria')['comment'],'filme otimo')
@@ -95,7 +95,7 @@ class TestStringMethods(unittest.TestCase):
 
 
 
-    def test_203_pega_review(self):
+    def ntest_203_pega_review(self):
         r = requests.get('http://localhost:5001/socialfilm/reviews/tt0076759/marcos')
         self.assertEqual(r.json()['user_id'],'marcos')
         self.assertTrue('gostei' in r.json()['comment'])
@@ -104,7 +104,7 @@ class TestStringMethods(unittest.TestCase):
         r = requests.get('http://localhost:5001/socialfilm/reviews/tt1211837/lucio')
         self.assertEqual(r.json(),{'user_id':'lucio','comment':'estranho'})
     
-    def test_204_pega_review_com_erro(self):
+    def ntest_204_pega_review_com_erro(self):
         r = requests.get('http://localhost:5001/socialfilm/reviews/outro/gato')
         self.assertEqual(r.json(),{'erro':'comentario nao encontrado'})
         self.assertEqual(r.status_code,404)
@@ -125,7 +125,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(r.json()['comment'],'curiosa mistura de fantasmas e empreendedorismo')
 
 
-    def test_206_muda_review(self):
+    def ntest_206_muda_review(self):
         antes = self.total_reviews()
         r = requests.put('http://localhost:5001/socialfilm/reviews/tt0087332/marcos',
                 json={'comment':'mudei de ideia. Nao gosto de fantasmas'})
@@ -138,7 +138,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(antes,depois)
 
 
-    def test_207_all_films(self):
+    def ntest_207_all_films(self):
         r = requests.get('http://localhost:5001/socialfilm/reviews/all_films/marcos')
         lista_respostas = r.json()
         self.assertTrue(len(lista_respostas) >= 2)
@@ -151,7 +151,7 @@ class TestStringMethods(unittest.TestCase):
     
 
 
-    def test_208_estrelas(self):
+    def ntest_208_estrelas(self):
         r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759/marcos')
         self.assertEqual(int(r.json()['stars']),4)
         r = requests.get('http://localhost:5001/socialfilm/stars/tt0076759/lucio')
@@ -162,7 +162,7 @@ class TestStringMethods(unittest.TestCase):
         #se voce simplesmente nao fizer nada
     
 
-    def test_209_estrelas_review_nao_encontrada(self):
+    def ntest_209_estrelas_review_nao_encontrada(self):
         r = requests.get('http://localhost:5001/socialfilm/stars/tt1211837/marcos')
         self.assertTrue('error' in r.json())
         self.assertEqual(r.json()['error'],'review nao encontrada')
@@ -172,6 +172,7 @@ class TestStringMethods(unittest.TestCase):
         r = requests.put('http://localhost:5001/socialfilm/stars/tt0119177/marcos',
                 json={'stars':3})
         r = requests.get('http://localhost:5001/socialfilm/stars/tt0119177/marcos')
+        print(r.json())
         self.assertEqual(r.json()['stars'],3)
         contagem = self.total_stars()
         r = requests.put('http://localhost:5001/socialfilm/stars/tt0119177/marcos',

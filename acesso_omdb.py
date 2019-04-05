@@ -6,7 +6,7 @@ coloque sua chave do omdb aqui.
 Se voce nao criou ou nao lembra, pode pedir emprestado para um amigo
 '''
  
-chave_omdb=''
+chave_omdb='b487936'
 
 '''
 Crie uma funçao existe_id de busca no OMDB, 
@@ -34,7 +34,13 @@ te mandando
 '''
 
 def existe_id(id_omdb):
-    return False
+   url = "http://www.omdbapi.com/?apikey={}&i={}".format(chave_omdb, id_omdb)
+   dados = req.get(url).json()
+   print(dados)
+   if dados['Response'] == 'False':
+       return False
+   else:
+        return True
 
 '''
 Crie uma funcao pega_nome que, dada uma id do omdb, devolve o nome do filme
@@ -45,7 +51,13 @@ Alias, se a id nao existir, retorne 'id nao encontrada'
 '''
 
 def pega_nome(id_omdb):
-    return 'id nao encontrada'
+   url = "http://www.omdbapi.com/?apikey={}&i={}".format(chave_omdb, id_omdb)
+   dados = req.get(url).json()
+   if dados['Response'] == 'False':
+       return 'id nao encontrada'
+   else:
+    print(dados['Title'])
+    return dados['Title']
 
 '''
 Talvez voce precise voltar novamente nesse arquivo, para 
@@ -54,3 +66,4 @@ pode voltar para o arquivo socialfilm
 '''
 
 
+pega_nome('tt1211837')
